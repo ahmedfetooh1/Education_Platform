@@ -8,6 +8,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 
 class Subject(models.Model):
     title = models.CharField(max_length=250)
+    discription = models.TextField(blank=True,null=True)
     slug = models.SlugField(max_length=250 , unique=True)
 
     class Meta:
