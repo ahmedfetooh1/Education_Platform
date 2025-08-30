@@ -42,14 +42,13 @@
                     </p>
                     <div class="mt-4">
                         
-                        {% if perms.courses.can_add_course %}
-                        <a href=""
+                        
+                        <a href="{% url 'courses:add_course' %}"
                         class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
                         Add Course
                         </a>
-                        {% else %}
                         
-                        {% endif %}
+                        
                             
                       
                     </div>
