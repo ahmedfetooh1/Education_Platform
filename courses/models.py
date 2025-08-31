@@ -27,6 +27,7 @@ class Course(models.Model):
     subject = models.ForeignKey(Subject , related_name='courses' , on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250,unique=True)
+    image = models.ImageField(upload_to='courses/images',blank=True,null=True)
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=2,choices=Status,default=Status.AVAILABLE)
@@ -38,7 +39,7 @@ class Course(models.Model):
         return str(self.title)
     
     def save(self , *args , ** kwargs):
-        if not self.slug :
+        if not self.slug or self.title != Course.objects.get(pk=self.pk).title if self.pk else None :
             self.slug = slugify(self.title)
         return super().save(*args , **kwargs)
     

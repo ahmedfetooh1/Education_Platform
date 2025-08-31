@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render , get_object_or_404
+from django.shortcuts import redirect, render , get_object_or_404 
 from .models import Subject ,Course
 from .forms import CourseForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -34,3 +35,21 @@ def add_course(request):
         'form' : form
     }
     return render(request,'course/add_course.html',context)
+
+
+
+@login_required
+def edit_course(request , slug):
+    course = get_object_or_404(Course,slug=slug,owner = request.user)
+    form = CourseForm(instance=course)
+    if request.method == 'POST':
+        form = CourseForm(request.POST,request.FILES,instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:view_profile')
+    
+    context = {
+        'form' : form ,
+        'course' : course
+    }
+    return render(request,'course/edit_course.html',context)

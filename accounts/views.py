@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import SignUpForm , InstructorProfileForm
 from django.contrib.auth import login ,logout , authenticate
-from .models import InstructorProfile
+from .models import InstructorProfile 
 from django.contrib.auth.decorators import login_required
+from courses.models import Course
+
 
 # Create your views here.
 
@@ -56,9 +58,12 @@ def sign_in(request):
 @login_required(login_url='accounts:view_profile')
 def view_profile(request):
     profile =get_object_or_404(InstructorProfile,user=request.user)
+    courses = Course.objects.filter(owner = request.user)
     context = {
-        'profile':profile
+        'profile':profile ,
+        'courses' : courses
     }
+
     return render(request,'accounts/view_profile.html',context)
 
 
