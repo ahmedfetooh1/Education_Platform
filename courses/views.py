@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render , get_object_or_404 
 from .models import Subject ,Course
 from .forms import CourseForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required ,permission_required
 
 # Create your views here.
 
@@ -18,7 +18,8 @@ def course_detail(request , slug):
     }
     return render(request,'course/course_detail.html',context)
 
-
+@login_required
+@permission_required('courses.Can_add_course',raise_exception = True)
 def add_course(request):
     if request.method == 'POST':
         form = CourseForm(request.POST)
