@@ -11,10 +11,9 @@
         <h1 class="text-4xl font-extrabold mb-6">{{ detail.title }}</h1>
         <p class="text-lg mb-8">Analyze data and build machine learning models with Python. A comprehensive course for aspiring data scientists.</p>
         
-        
-        <a href="#" class="inline-block bg-white text-blue-600 font-bold py-2 px-6 rounded hover:bg-gray-100">Enroll Now</a>
+            <a href="{% url 'courses:enroll_course' detail.slug %}" class="inline-block bg-white text-blue-600 font-bold py-2 px-6 rounded hover:bg-gray-100">Enroll Now</a>
 
-            
+        
     
     </div>
 </section>
@@ -35,6 +34,7 @@
         </a>
     </div>
     {% else %}
+
     {% endif %}
 
     <!-- Modules List -->

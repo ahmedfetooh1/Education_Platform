@@ -1,7 +1,10 @@
+
 from django.shortcuts import redirect, render , get_object_or_404 
 from .models import Subject ,Course
 from .forms import CourseForm , ModuleForm , TextForm , ImageForm , FileForm , VideoForm
 from django.contrib.auth.decorators import login_required ,permission_required
+from django.contrib import messages
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -12,6 +15,7 @@ def subject_courses_list(request):
 
 def course_detail(request , slug):
     course = get_object_or_404(Course ,slug=slug)
+
 
     context = {
         'detail':course
@@ -70,7 +74,6 @@ def add_module(request,slug):
             module.course = course
             module.save()
             return redirect('courses:course_detail',slug=course.slug)
-        
     else :
         form = ModuleForm()
     
@@ -78,6 +81,15 @@ def add_module(request,slug):
         'form' : form ,
         'course' : course
     }
-
     return render(request,'course/add_module.html',context)
 
+def enroll_course(request,slug):
+    course = get_object_or_404(Course,slug=slug)
+    if request.user.is_authenticated :
+        course.students.add(request.user)
+        course.save()
+        messages.success(request,'You have successfuly enrolled in courses')
+        return redirect('courses:course_detail', slug = course.slug)
+
+    return redirect('accounts:sign_in')
+        
