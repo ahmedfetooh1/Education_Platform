@@ -1,5 +1,5 @@
 from django import forms
-from .models import Course
+from .models import Course , Text , File , Image , Video , Module
 
 
 
@@ -7,3 +7,40 @@ class CourseForm(forms.ModelForm):
     class Meta :
         model = Course
         fields = ['subject','title','image','overview','status']
+
+
+
+
+
+class ModuleForm(forms.ModelForm):
+    class Meta :
+        model = Module
+        fields = ['title','description']
+
+
+
+class TextForm(forms.ModelForm):
+    class Meta :
+        model = Text
+        fields = ['content']
+
+
+
+class FileForm(forms.ModelForm):
+    class Meta :
+        model = File
+        fields = ['file']
+
+
+
+class ImageForm(forms.ModelForm):
+    class Meta :
+        model = Image
+        fields = ['image']
+
+
+
+class VideoForm(forms.ModelForm):
+    class Meta :
+        model = Video
+        fields = ['video']

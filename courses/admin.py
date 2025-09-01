@@ -20,3 +20,6 @@ class Course(admin.ModelAdmin):
     search_fields = ['title','overview']
     inlines = [ModuleInline]
     readonly_fields = ['slug']
+
+
+admin.site.register(Module)

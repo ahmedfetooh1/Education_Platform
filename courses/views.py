@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render , get_object_or_404 
 from .models import Subject ,Course
-from .forms import CourseForm
+from .forms import CourseForm , ModuleForm , TextForm , ImageForm , FileForm , VideoForm
 from django.contrib.auth.decorators import login_required ,permission_required
 
 # Create your views here.
@@ -17,6 +17,8 @@ def course_detail(request , slug):
         'detail':course
     }
     return render(request,'course/course_detail.html',context)
+
+
 
 @login_required
 @permission_required('courses.Can_add_course',raise_exception = True)
@@ -54,3 +56,28 @@ def edit_course(request , slug):
         'course' : course
     }
     return render(request,'course/edit_course.html',context)
+
+
+
+@permission_required('course.add_module',raise_exception=True)
+@login_required
+def add_module(request,slug):
+    course = get_object_or_404(Course,slug=slug)
+    if request.method == 'POST':
+        form = ModuleForm(request.POST)
+        if form.is_valid():
+            module = form.save(commit=False)
+            module.course = course
+            module.save()
+            return redirect('courses:course_detail',slug=course.slug)
+        
+    else :
+        form = ModuleForm()
+    
+    context = {
+        'form' : form ,
+        'course' : course
+    }
+
+    return render(request,'course/add_module.html',context)
+
